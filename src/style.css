@@ -123,7 +123,7 @@ main {
 .title h1 {
   margin: 8px 0 0;
   max-width: 680px;
-  color: #f4e8c8;
+  color: #FFFD52;
   font-size: clamp(48px, 6vw, 92px);
   line-height: 0.92;
   letter-spacing: -0.055em;
@@ -165,6 +165,7 @@ main {
   z-index: 9999;
   width: 360px;
   max-height: calc(100vh - 56px);
+  overflow-y: auto;
   border: 1px solid rgba(255, 253, 82, 0.35);
   border-radius: 28px;
   background: #070706;
@@ -172,8 +173,33 @@ main {
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
 }
 
+/* portrait : visuel plus haut, panel plus étroit */
+.panel--portrait {
+  width: 300px;
+}
+
+.panel--portrait .coverBox {
+  max-height: 400px;
+}
+
+.panel--portrait .coverBox img {
+  max-height: 372px;
+}
+
+/* paysage : panel plus large, visuel moins haut */
+.panel--landscape {
+  width: 420px;
+}
+
+.panel--landscape .coverBox {
+  max-height: 260px;
+}
+
+.panel--landscape .coverBox img {
+  max-height: 232px;
+}
+
 .coverBox {
-  height: 360px;
   border: 1px solid rgba(255, 253, 82, 0.22);
   border-radius: 18px;
   background: #0b0b08;
@@ -183,11 +209,13 @@ main {
   padding: 14px;
   overflow: hidden;
   position: relative;
+  max-height: 480px;
 }
 
 .coverBox img {
-  max-width: 100%;
-  max-height: 100%;
+  width: 100%;
+  height: auto;
+  max-height: 452px;
   object-fit: contain;
   display: block;
 }

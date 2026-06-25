@@ -109,14 +109,22 @@ function AtlasMap({ projects, active, setActive, filter }) {
 }
 
 function ProjectPanel({ project }) {
+  const [orientation, setOrientation] = useState("landscape");
+
   if (!project) return null;
 
+  function handleImageLoad(e) {
+    const { naturalWidth, naturalHeight } = e.currentTarget;
+    setOrientation(naturalHeight > naturalWidth ? "portrait" : "landscape");
+  }
+
   return (
-    <aside className="panel">
+    <aside className={`panel panel--${orientation}`}>
       <div className="coverBox">
         <img
           src={`/covers/${project.cover_file}`}
           alt={project.title_clean}
+          onLoad={handleImageLoad}
           onError={(e) => {
             e.currentTarget.style.display = "none";
             e.currentTarget.parentElement.classList.add("missing-cover");
