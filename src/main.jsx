@@ -121,9 +121,7 @@ function ProjectOverlay({ project, onClose }) {
 
   return (
     <div className="overlay" onClick={onClose}>
-      <div className="overlay__card" onClick={(e) => e.stopPropagation()}>
-        <button className="overlay__close" onClick={onClose}>✕</button>
-
+      <div className="overlay__card">
         {!imgError ? (
           <img
             className="overlay__img"
@@ -137,7 +135,10 @@ function ProjectOverlay({ project, onClose }) {
 
         <div className="overlay__caption">
           <span className="overlay__title">{project.title_clean}</span>
-          <span className="overlay__address">{project.address_clean || project.city || ""}</span>
+          <div className="overlay__caption-right">
+            {project.address_clean && <span className="overlay__address">{project.address_clean}</span>}
+            {project.city && <span className="overlay__city">{project.city}</span>}
+          </div>
         </div>
       </div>
     </div>

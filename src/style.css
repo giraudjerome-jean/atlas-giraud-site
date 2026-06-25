@@ -173,7 +173,7 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 48px;
+  padding: 24px;
   animation: fadeIn 0.22s ease;
 }
 
@@ -184,8 +184,9 @@ main {
 
 .overlay__card {
   position: relative;
-  max-width: calc(100vh * 0.72);
-  max-height: calc(100vh - 96px);
+  max-width: calc(100vh * 0.85);
+  max-height: calc(100vh - 48px);
+  cursor: zoom-out;
   animation: scaleIn 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -197,7 +198,7 @@ main {
 .overlay__img {
   display: block;
   max-width: 100%;
-  max-height: calc(100vh - 96px);
+  max-height: calc(100vh - 80px);
   object-fit: contain;
 }
 
@@ -212,51 +213,30 @@ main {
   font-size: 12px;
 }
 
-.overlay__close {
-  position: absolute;
-  top: -14px;
-  right: -14px;
-  background: #0a0a08;
-  border: 1px solid rgba(255, 253, 82, 0.25);
-  color: rgba(244, 232, 200, 0.6);
-  border-radius: 999px;
-  width: 32px;
-  height: 32px;
-  cursor: pointer;
-  font-size: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: color 0.15s, border-color 0.15s;
-  z-index: 1;
-}
-
-.overlay__close:hover {
-  color: #FFFD52;
-  border-color: #FFFD52;
-}
 
 .overlay__caption {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  gap: 16px;
+  gap: 24px;
   padding-top: 10px;
 }
 
-.overlay__title {
-  font-size: 11px;
-  font-weight: 600;
-  color: rgba(244, 232, 200, 0.75);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+.overlay__caption-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
 }
 
-.overlay__address {
+.overlay__title,
+.overlay__address,
+.overlay__city {
   font-size: 10px;
-  color: rgba(244, 232, 200, 0.32);
-  letter-spacing: 0.04em;
-  text-align: right;
+  font-weight: 400;
+  color: rgba(244, 232, 200, 0.28);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .tag {
