@@ -11,7 +11,7 @@ const supabase = createClient(
 );
 
 const typeColors = {
-  office: "#f2c230",
+  office: "#FFFD52",
   retail: "#f4e8c8",
   hotel: "#d89a1c",
   residential: "#b99a43",
@@ -76,7 +76,7 @@ function AtlasMap({ projects, active, setActive, filter }) {
       .filter((p) => filter === "all" || p.type === filter)
       .forEach((p) => {
         const isActive = active?.id === p.id;
-        const color = typeColors[p.type] || "#f2c230";
+        const color = typeColors[p.type] || "#FFFD52";
 
         const marker = L.circleMarker([p.lat, p.lng], {
           radius: isActive ? 9 : 6,
