@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import { createRoot } from "react-dom/client";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -108,40 +108,39 @@ function AtlasMap({ projects, active, setActive, filter }) {
   return <div ref={mapEl} className="map" />;
 }
 
-function ProjectPanel({ project }) {
-  const [orientation, setOrientation] = useState("landscape");
+function ProjectOverlay({ project, onClose }) {
+  const [imgError, setImgError] = useState(false);
 
-  if (!project) return null;
+  useEffect(() => { setImgError(false); }, [project]);
 
-  function handleImageLoad(e) {
-    const { naturalWidth, naturalHeight } = e.currentTarget;
-    setOrientation(naturalHeight > naturalWidth ? "portrait" : "landscape");
-  }
+  useEffect(() => {
+    function onKey(e) { if (e.key === "Escape") onClose(); }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
 
   return (
-    <aside className={`panel panel--${orientation}`}>
-      <div className="coverBox">
-        <img
-          src={`/covers/${project.cover_file}`}
-          alt={project.title_clean}
-          onLoad={handleImageLoad}
-          onError={(e) => {
-            e.currentTarget.style.display = "none";
-            e.currentTarget.parentElement.classList.add("missing-cover");
-          }}
-        />
-        <div className="missingText">
-          Cover à ajouter
-          <br />
-          {project.cover_file}
+    <div className="overlay" onClick={onClose}>
+      <div className="overlay__card" onClick={(e) => e.stopPropagation()}>
+        <button className="overlay__close" onClick={onClose}>✕</button>
+
+        {!imgError ? (
+          <img
+            className="overlay__img"
+            src={`/covers/${project.cover_file}`}
+            alt={project.title_clean}
+            onError={() => setImgError(true)}
+          />
+        ) : (
+          <div className="overlay__missing">Cover à ajouter</div>
+        )}
+
+        <div className="overlay__caption">
+          <span className="overlay__title">{project.title_clean}</span>
+          <span className="overlay__address">{project.address_clean || project.city || ""}</span>
         </div>
       </div>
-
-      <div className="meta">{project.city || ""}</div>
-      <h2>{project.title_clean}</h2>
-      <p>{project.address_clean || ""}</p>
-      <div className="tag">{project.type}</div>
-    </aside>
+    </div>
   );
 }
 
@@ -160,17 +159,22 @@ function App() {
         .not("lng", "is", null)
         .order("title_clean", { ascending: true });
 
-      if (error) {
-        console.error("Supabase error:", error);
-        return;
-      }
-
+      if (error) { console.error("Supabase error:", error); return; }
       setProjects(data || []);
-      setActive((data && data[0]) || null);
     }
-
     loadProjects();
   }, []);
+
+  const filteredProjects = projects.filter(
+    (p) => filter === "all" || p.type === filter
+  );
+
+  const navigate = useCallback((dir) => {
+    if (!active || filteredProjects.length === 0) return;
+    const idx = filteredProjects.findIndex((p) => p.id === active.id);
+    const next = filteredProjects[(idx + dir + filteredProjects.length) % filteredProjects.length];
+    setActive(next);
+  }, [active, filteredProjects]);
 
   const filters = [
     "all",
@@ -178,7 +182,7 @@ function App() {
   ];
 
   return (
-    <main>
+    <main className={active ? "has-overlay" : ""}>
       <AtlasMap
         projects={projects}
         active={active}
@@ -203,7 +207,12 @@ function App() {
         ))}
       </nav>
 
-      <ProjectPanel project={active} />
+      {active && (
+        <ProjectOverlay
+          project={active}
+          onClose={() => setActive(null)}
+        />
+      )}
     </main>
   );
 }
