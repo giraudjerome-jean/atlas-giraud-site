@@ -258,12 +258,12 @@ main {
   font-weight: 400;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgba(244, 232, 200, 0.35);
+  color: rgba(255, 253, 82, 0.35);
   text-decoration: none;
   transition: color 0.15s;
 }
 
-.contact a:hover { color: rgba(244, 232, 200, 0.7); }
+.contact a:hover { color: rgba(255, 253, 82, 0.8); }
 
 .tag {
   display: inline-flex;
