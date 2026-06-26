@@ -176,6 +176,14 @@ function App() {
         <h1>Grand atlas des projets</h1>
       </header>
 
+      <footer className="contact">
+        <a href="https://studiogiraud.com" target="_blank" rel="noreferrer">studiogiraud.com</a>
+        <span>·</span>
+        <a href="mailto:jerome@studiogiraud.com">jerome@studiogiraud.com</a>
+        <span>·</span>
+        <a href="tel:+33622580445">+33 6 22 58 04 45</a>
+      </footer>
+
       {active && (
         <ProjectOverlay
           project={active}
