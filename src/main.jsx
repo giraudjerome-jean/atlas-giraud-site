@@ -10,14 +10,6 @@ const supabase = createClient(
   "sb_publishable_V4qGbrBqw1Dsda_MDfRYpA_g64pktKq"
 );
 
-const typeColors = {
-  office: "#FFFD52",
-  retail: "#f4e8c8",
-  hotel: "#d89a1c",
-  residential: "#b99a43",
-  mixed_use: "#a88f45",
-  logistics: "#8f7b3a",
-};
 
 function AtlasMap({ projects, active, setActive, filter }) {
   const mapEl = useRef(null);
@@ -76,12 +68,11 @@ function AtlasMap({ projects, active, setActive, filter }) {
       .filter((p) => filter === "all" || p.type === filter)
       .forEach((p) => {
         const isActive = active?.id === p.id;
-        const color = typeColors[p.type] || "#FFFD52";
 
         const marker = L.circleMarker([p.lat, p.lng], {
           radius: isActive ? 9 : 6,
           stroke: false,
-          fillColor: color,
+          fillColor: "#FFFD52",
           fillOpacity: isActive ? 1 : 0.9,
           interactive: true,
         });
@@ -148,8 +139,6 @@ function ProjectOverlay({ project, onClose }) {
 function App() {
   const [projects, setProjects] = useState([]);
   const [active, setActive] = useState(null);
-  const [filter, setFilter] = useState("all");
-
   useEffect(() => {
     async function loadProjects() {
       const { data, error } = await supabase
@@ -166,21 +155,12 @@ function App() {
     loadProjects();
   }, []);
 
-  const filteredProjects = projects.filter(
-    (p) => filter === "all" || p.type === filter
-  );
-
   const navigate = useCallback((dir) => {
-    if (!active || filteredProjects.length === 0) return;
-    const idx = filteredProjects.findIndex((p) => p.id === active.id);
-    const next = filteredProjects[(idx + dir + filteredProjects.length) % filteredProjects.length];
+    if (!active || projects.length === 0) return;
+    const idx = projects.findIndex((p) => p.id === active.id);
+    const next = projects[(idx + dir + projects.length) % projects.length];
     setActive(next);
-  }, [active, filteredProjects]);
-
-  const filters = [
-    "all",
-    ...Array.from(new Set(projects.map((p) => p.type).filter(Boolean))),
-  ];
+  }, [active, projects]);
 
   return (
     <main className={active ? "has-overlay" : ""}>
@@ -188,25 +168,13 @@ function App() {
         projects={projects}
         active={active}
         setActive={setActive}
-        filter={filter}
+        filter="all"
       />
 
       <header className="title">
         <div>STUDIO GIRAUD</div>
         <h1>Grand atlas des projets</h1>
       </header>
-
-      <nav className="filters">
-        {filters.map((item) => (
-          <button
-            key={item}
-            onClick={() => setFilter(item)}
-            className={filter === item ? "active" : ""}
-          >
-            {item}
-          </button>
-        ))}
-      </nav>
 
       {active && (
         <ProjectOverlay
