@@ -69,20 +69,23 @@ function AtlasMap({ projects, active, setActive, filter }) {
       .forEach((p) => {
         const isActive = active?.id === p.id;
 
+        const isMobile = window.innerWidth < 768;
         const marker = L.circleMarker([p.lat, p.lng], {
-          radius: isActive ? 9 : 6,
+          radius: isActive ? 10 : (isMobile ? 9 : 6),
           stroke: false,
           fillColor: "#FFFD52",
           fillOpacity: isActive ? 1 : 0.9,
           interactive: true,
         });
 
-        marker.bindTooltip(p.title_clean, {
-          direction: "right",
-          offset: [12, 0],
-          opacity: 0.95,
-          className: "atlas-tooltip",
-        });
+        if (!isMobile) {
+          marker.bindTooltip(p.title_clean, {
+            direction: "right",
+            offset: [12, 0],
+            opacity: 0.95,
+            className: "atlas-tooltip",
+          });
+        }
 
         marker.on("click", () => {
           setActive(p);
