@@ -174,7 +174,7 @@ function App() {
         filter="all"
       />
 
-      <header className="title">
+      {/* <header className="title">
         <div>STUDIO GIRAUD</div>
         <h1>Grand atlas des projets</h1>
       </header>
@@ -185,7 +185,7 @@ function App() {
         <a href="mailto:jerome@studiogiraud.com">jerome@studiogiraud.com</a>
         <span>·</span>
         <a href="tel:+33622580445">+33 6 22 58 04 45</a>
-      </footer>
+      </footer> */}
 
       {active && (
         <ProjectOverlay
