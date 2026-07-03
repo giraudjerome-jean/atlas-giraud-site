@@ -179,6 +179,10 @@ function App() {
         <h1>Grand atlas des projets</h1>
       </header>
 
+      {projects.length >= 300 && (
+        <div className="project-counter">{projects.length} projets</div>
+      )}
+
       <footer className="contact">
         <a href="https://studiogiraud.com" target="_blank" rel="noreferrer">studiogiraud.com</a>
         <span>·</span>

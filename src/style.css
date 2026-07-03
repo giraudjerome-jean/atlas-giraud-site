@@ -269,6 +269,20 @@ main {
   text-transform: uppercase;
 }
 
+/* ── Compteur projets ── */
+.project-counter {
+  position: fixed;
+  left: 30px;
+  bottom: 28px;
+  z-index: 9998;
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 253, 82, 0.5);
+  pointer-events: none;
+}
+
 /* ── Contact ── */
 .contact {
   position: fixed;
