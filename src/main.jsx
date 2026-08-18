@@ -143,6 +143,8 @@ function ProjectOverlay({ project, onClose }) {
 function App() {
   const [projects, setProjects] = useState([]);
   const [active, setActive] = useState(null);
+  const [showToast, setShowToast] = useState(false);
+
   useEffect(() => {
     async function loadProjects() {
       const { data, error } = await supabase
@@ -155,6 +157,10 @@ function App() {
 
       if (error) { console.error("Supabase error:", error); return; }
       setProjects(data || []);
+      setTimeout(() => {
+        setShowToast(true);
+        setTimeout(() => setShowToast(false), 3000);
+      }, 800);
     }
     loadProjects();
   }, []);
@@ -182,6 +188,9 @@ function App() {
 
       {projects.length >= 300 && (
         <div className="project-counter">{projects.length} projets</div>
+      )}
+      {showToast && (
+        <div className="toast-intro">{projects.length} projets</div>
       )}
 
       <footer className="contact">

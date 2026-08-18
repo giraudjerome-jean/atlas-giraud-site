@@ -320,3 +320,29 @@ main {
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
+
+/* Toast intro */
+@keyframes toast-in-out {
+  0%   { opacity: 0; transform: translateY(8px); }
+  15%  { opacity: 1; transform: translateY(0); }
+  75%  { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-6px); }
+}
+
+.toast-intro {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #FFFD52;
+  color: #000;
+  font-family: "Radial", sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 12px 24px;
+  z-index: 99999;
+  pointer-events: none;
+  animation: toast-in-out 3s ease forwards;
+}
