@@ -320,15 +320,3 @@ main {
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
-
-@keyframes counter-flash {
-  0%   { background: transparent; color: #FFFD52; padding: 0; border-radius: 0; transform: scale(1); }
-  15%  { background: #FFFD52; color: #000; padding: 4px 10px; border-radius: 2px; transform: scale(1.15); }
-  45%  { background: #FFFD52; color: #000; padding: 4px 10px; border-radius: 2px; transform: scale(1.1); }
-  75%  { background: #FFFD52; color: #000; padding: 4px 10px; border-radius: 2px; transform: scale(1.05); }
-  100% { background: transparent; color: #FFFD52; padding: 0; border-radius: 0; transform: scale(1); }
-}
-
-.counter-anim {
-  animation: counter-flash 1.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}

@@ -140,18 +140,6 @@ function ProjectOverlay({ project, onClose }) {
   );
 }
 
-function Counter({ count }) {
-  const [anim, setAnim] = useState(false);
-  useEffect(() => {
-    const id = setInterval(() => {
-      setAnim(true);
-      setTimeout(() => setAnim(false), 1200);
-    }, 30000);
-    return () => clearInterval(id);
-  }, []);
-  return <div className={`project-counter${anim ? " counter-anim" : ""}`}>{count} projets</div>;
-}
-
 function App() {
   const [projects, setProjects] = useState([]);
   const [active, setActive] = useState(null);
@@ -193,7 +181,7 @@ function App() {
       </header>
 
       {projects.length >= 300 && (
-        <Counter count={projects.length} />
+        <div className="project-counter">{projects.length} projets</div>
       )}
 
       <footer className="contact">
