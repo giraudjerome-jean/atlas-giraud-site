@@ -99,6 +99,24 @@ function AtlasMap({ projects, active, setActive, filter }) {
       });
   }, [projects, active, filter, setActive]);
 
+  // Vague toutes les 30 secondes
+  useEffect(() => {
+    const dance = () => {
+      const circles = document.querySelectorAll(".leaflet-interactive");
+      circles.forEach((el, i) => {
+        const delay = i * 8;
+        el.style.transition = "none";
+        setTimeout(() => {
+          el.style.transition = `r 0.3s ease, opacity 0.3s ease`;
+          el.classList.add("marker-dance");
+          setTimeout(() => el.classList.remove("marker-dance"), 800 + delay);
+        }, delay);
+      });
+    };
+    const id = setInterval(dance, 30000);
+    return () => clearInterval(id);
+  }, []);
+
   return <div ref={mapEl} className="map" />;
 }
 
