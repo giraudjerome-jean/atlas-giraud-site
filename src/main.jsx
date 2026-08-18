@@ -143,8 +143,6 @@ function ProjectOverlay({ project, onClose }) {
 function App() {
   const [projects, setProjects] = useState([]);
   const [active, setActive] = useState(null);
-  const [counterAnim, setCounterAnim] = useState(false);
-
   useEffect(() => {
     async function loadProjects() {
       const { data, error } = await supabase
@@ -157,8 +155,6 @@ function App() {
 
       if (error) { console.error("Supabase error:", error); return; }
       setProjects(data || []);
-      setCounterAnim(true);
-      setTimeout(() => setCounterAnim(false), 2500);
     }
     loadProjects();
   }, []);
@@ -185,7 +181,7 @@ function App() {
       </header>
 
       {projects.length >= 300 && (
-        <div className={`project-counter${counterAnim ? " counter-intro" : ""}`}>{projects.length} projets</div>
+        <div className="project-counter">{projects.length} projets</div>
       )}
 
       <footer className="contact">

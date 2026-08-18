@@ -270,6 +270,12 @@ main {
 }
 
 /* ── Compteur projets ── */
+@keyframes counter-load {
+  0%   { background: #FFFD52; color: #000; padding: 5px 10px; }
+  60%  { background: #FFFD52; color: #000; padding: 5px 10px; }
+  100% { background: transparent; color: #FFFD52; padding: 0 0; }
+}
+
 .project-counter {
   position: fixed;
   left: 30px;
@@ -281,13 +287,7 @@ main {
   text-transform: uppercase;
   color: #FFFD52;
   pointer-events: none;
-  transition: background 0.6s ease, color 0.6s ease, padding 0.6s ease;
-}
-
-.counter-intro {
-  background: #FFFD52;
-  color: #000;
-  padding: 5px 10px;
+  animation: counter-load 3s ease forwards;
 }
 
 /* ── Contact ── */
