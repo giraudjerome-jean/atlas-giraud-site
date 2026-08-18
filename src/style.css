@@ -281,6 +281,13 @@ main {
   text-transform: uppercase;
   color: #FFFD52;
   pointer-events: none;
+  transition: background 0.6s ease, color 0.6s ease, padding 0.6s ease;
+}
+
+.counter-intro {
+  background: #FFFD52;
+  color: #000;
+  padding: 5px 10px;
 }
 
 /* ── Contact ── */
@@ -326,13 +333,4 @@ main {
   outline: none;
 }
 
-@keyframes counter-intro {
-  0%   { background: #FFFD52; color: #000; padding: 5px 10px; }
-  65%  { background: #FFFD52; color: #000; padding: 5px 10px; }
-  100% { background: transparent; color: #FFFD52; padding: 0; }
-}
 
-.counter-intro {
-  animation: counter-intro 3s ease forwards;
-  display: inline-block;
-}

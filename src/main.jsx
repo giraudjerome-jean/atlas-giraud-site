@@ -158,6 +158,7 @@ function App() {
       if (error) { console.error("Supabase error:", error); return; }
       setProjects(data || []);
       setCounterAnim(true);
+      setTimeout(() => setCounterAnim(false), 2500);
     }
     loadProjects();
   }, []);
