@@ -157,10 +157,7 @@ function App() {
 
       if (error) { console.error("Supabase error:", error); return; }
       setProjects(data || []);
-      setTimeout(() => {
-        setShowToast(true);
-        setTimeout(() => setShowToast(false), 3000);
-      }, 800);
+      setShowToast(true);
     }
     loadProjects();
   }, []);

@@ -321,6 +321,11 @@ main {
   text-transform: uppercase;
 }
 
+/* Remove focus outline on map markers */
+.leaflet-interactive:focus {
+  outline: none;
+}
+
 /* Toast intro */
 @keyframes toast-in-out {
   0%   { opacity: 0; transform: translateY(8px); }
@@ -344,5 +349,6 @@ main {
   padding: 12px 24px;
   z-index: 99999;
   pointer-events: none;
-  animation: toast-in-out 3s ease forwards;
+  animation: toast-in-out 3.5s ease forwards;
+  animation-fill-mode: forwards;
 }
