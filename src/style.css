@@ -328,6 +328,31 @@ main {
   text-transform: uppercase;
 }
 
+/* ── PDF button ── */
+.overlay__pdf {
+  margin-top: 12px;
+  text-align: center;
+}
+
+.overlay__pdf a {
+  display: inline-block;
+  border: 1px solid rgba(255, 253, 82, 0.4);
+  color: rgba(244, 232, 200, 0.7);
+  padding: 8px 20px;
+  border-radius: 999px;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+
+.overlay__pdf a:hover {
+  border-color: #FFFD52;
+  color: #000;
+  background: #FFFD52;
+}
+
 /* Remove focus outline on map markers */
 .leaflet-interactive:focus {
   outline: none;

@@ -135,6 +135,18 @@ function ProjectOverlay({ project, onClose }) {
             {project.city && <span className="overlay__city">{project.city}</span>}
           </div>
         </div>
+        {project.pdf_url && (
+          <div className="overlay__pdf">
+            <a
+              href={project.pdf_url}
+              target="_blank"
+              rel="noreferrer"
+              onClick={(e) => e.stopPropagation()}
+            >
+              Voir le document
+            </a>
+          </div>
+        )}
       </div>
     </div>
   );
