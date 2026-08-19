@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useCallback } from "react";
+import React, { useEffect, useRef, useState, useCallback, memo } from "react";
 import { createRoot } from "react-dom/client";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -103,10 +103,85 @@ function AtlasMap({ projects, active, setActive, filter }) {
   return <div ref={mapEl} className="map" />;
 }
 
+const FREE_PAGES = 9;
+
+function PdfViewer({ url, onClose }) {
+  const containerRef = useRef(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    async function render() {
+      try {
+        const pdfjsLib = await import("https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs");
+        pdfjsLib.GlobalWorkerOptions.workerSrc =
+          "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.mjs";
+
+        const pdf = await pdfjsLib.getDocument(url).promise;
+        if (cancelled) return;
+
+        for (let i = 1; i <= pdf.numPages; i++) {
+          if (cancelled) break;
+          const page = await pdf.getPage(i);
+          const viewport = page.getViewport({ scale: 1.6 });
+
+          const wrapper = document.createElement("div");
+          wrapper.className = "pdf-page-wrapper" + (i > FREE_PAGES ? " pdf-page--locked" : "");
+
+          const canvas = document.createElement("canvas");
+          canvas.width = viewport.width;
+          canvas.height = viewport.height;
+          canvas.style.display = "block";
+          canvas.style.width = "100%";
+
+          wrapper.appendChild(canvas);
+
+          if (i > FREE_PAGES) {
+            const veil = document.createElement("div");
+            veil.className = "pdf-veil";
+            if (i === FREE_PAGES + 1) {
+              veil.innerHTML = `<span>Contacter Studio Giraud<br/><a href="mailto:contact@studiogiraud.com">contact@studiogiraud.com</a></span>`;
+            }
+            wrapper.appendChild(veil);
+          }
+
+          containerRef.current?.appendChild(wrapper);
+
+          await page.render({ canvasContext: canvas.getContext("2d"), viewport }).promise;
+        }
+        if (!cancelled) setLoading(false);
+      } catch {
+        if (!cancelled) setError(true);
+      }
+    }
+    render();
+    return () => { cancelled = true; };
+  }, [url]);
+
+  useEffect(() => {
+    function onKey(e) { if (e.key === "Escape") onClose(); }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
+
+  return (
+    <div className="pdf-modal" onClick={onClose}>
+      <div className="pdf-modal__inner" onClick={(e) => e.stopPropagation()}>
+        <button className="pdf-modal__close" onClick={onClose}>✕</button>
+        {loading && !error && <div className="pdf-modal__loading">Chargement…</div>}
+        {error && <div className="pdf-modal__loading">Erreur de chargement</div>}
+        <div ref={containerRef} className="pdf-modal__pages" />
+      </div>
+    </div>
+  );
+}
+
 function ProjectOverlay({ project, onClose }) {
   const [imgError, setImgError] = useState(false);
+  const [pdfOpen, setPdfOpen] = useState(false);
 
-  useEffect(() => { setImgError(false); }, [project]);
+  useEffect(() => { setImgError(false); setPdfOpen(false); }, [project]);
 
   useEffect(() => {
     function onKey(e) { if (e.key === "Escape") onClose(); }
@@ -137,15 +212,15 @@ function ProjectOverlay({ project, onClose }) {
         </div>
         {project.pdf_url && (
           <div className="overlay__pdf">
-            <a
-              href={project.pdf_url}
-              target="_blank"
-              rel="noreferrer"
-              onClick={(e) => e.stopPropagation()}
+            <button
+              onClick={(e) => { e.stopPropagation(); setPdfOpen(true); }}
             >
               Voir le document
-            </a>
+            </button>
           </div>
+        )}
+        {pdfOpen && (
+          <PdfViewer url={project.pdf_url} onClose={() => setPdfOpen(false)} />
         )}
       </div>
     </div>
