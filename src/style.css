@@ -65,6 +65,16 @@ main {
   font-family: inherit;
 }
 
+.leaflet-control-attribution {
+  background: transparent !important;
+  font-size: 9px !important;
+  color: rgba(244, 232, 200, 0.25) !important;
+}
+
+.leaflet-control-attribution a {
+  color: rgba(244, 232, 200, 0.35) !important;
+}
+
 .leaflet-control-zoom {
   margin-left: 30px !important;
   margin-bottom: 88px !important;

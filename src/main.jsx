@@ -21,7 +21,7 @@ function AtlasMap({ projects, active, setActive, filter }) {
 
     const map = L.map(mapEl.current, {
       zoomControl: false,
-      attributionControl: false,
+      attributionControl: true,
       center: [48.865, 2.315],
       zoom: 12,
       minZoom: 4,
@@ -45,6 +45,7 @@ function AtlasMap({ projects, active, setActive, filter }) {
       updateWhenZooming: false,
       keepBuffer: 2,
       crossOrigin: true,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
     }).addTo(map);
 
     L.control.zoom({ position: "bottomleft" }).addTo(map);
@@ -234,7 +235,7 @@ function App() {
     async function loadProjects() {
       const { data, error } = await supabase
         .from("projects")
-        .select("*")
+        .select("id,title_clean,address_clean,city,lat,lng,cover_file,pdf_url,type")
         .eq("display_on_map", true)
         .not("lat", "is", null)
         .not("lng", "is", null)
