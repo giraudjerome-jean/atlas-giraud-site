@@ -480,23 +480,6 @@ main {
   margin: 0 0 14px;
 }
 
-.pdf-end-card__cta {
-  font-size: 11px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: rgba(244, 232, 200, 0.7);
-  line-height: 1.9;
-  margin: 0;
-}
-
-.pdf-end-card__cta a {
-  color: #FFFD52;
-  text-decoration: none;
-}
-
-.pdf-end-card__cta a:hover {
-  text-decoration: underline;
-}
 
 /* Remove focus outline on map markers */
 .leaflet-interactive:focus {
