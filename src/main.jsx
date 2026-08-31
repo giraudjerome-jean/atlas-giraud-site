@@ -154,7 +154,7 @@ function PdfViewer({ url, onClose }) {
         if (!cancelled) {
           const endCard = document.createElement("div");
           endCard.className = "pdf-end-card";
-          endCard.innerHTML = `<p class="pdf-end-card__label">Extrait du dossier de présentation</p>`;
+          endCard.innerHTML = `<p class="pdf-end-card__label">Extrait — 9 premières pages</p>`;
           containerRef.current?.appendChild(endCard);
           setLoading(false);
         }
