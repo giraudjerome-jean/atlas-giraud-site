@@ -151,7 +151,16 @@ function PdfViewer({ url, onClose }) {
 
           await page.render({ canvasContext: canvas.getContext("2d"), viewport }).promise;
         }
-        if (!cancelled) setLoading(false);
+        if (!cancelled) {
+          const endCard = document.createElement("div");
+          endCard.className = "pdf-end-card";
+          endCard.innerHTML = `
+            <p class="pdf-end-card__label">Extrait — ${pdf.numPages > 9 ? pdf.numPages + ' pages au total' : 'document complet disponible sur demande'}</p>
+            <p class="pdf-end-card__cta">Pour accéder au dossier complet,<br/>contactez <a href="mailto:contact@studiogiraud.com">contact@studiogiraud.com</a></p>
+          `;
+          containerRef.current?.appendChild(endCard);
+          setLoading(false);
+        }
       } catch {
         if (!cancelled) setError(true);
       }

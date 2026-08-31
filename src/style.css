@@ -464,6 +464,40 @@ main {
   text-decoration: underline;
 }
 
+.pdf-end-card {
+  margin-top: 2px;
+  padding: 32px 24px;
+  background: rgba(10, 10, 10, 0.92);
+  border-top: 1px solid rgba(244, 232, 200, 0.12);
+  text-align: center;
+}
+
+.pdf-end-card__label {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(244, 232, 200, 0.45);
+  margin: 0 0 14px;
+}
+
+.pdf-end-card__cta {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(244, 232, 200, 0.7);
+  line-height: 1.9;
+  margin: 0;
+}
+
+.pdf-end-card__cta a {
+  color: #FFFD52;
+  text-decoration: none;
+}
+
+.pdf-end-card__cta a:hover {
+  text-decoration: underline;
+}
+
 /* Remove focus outline on map markers */
 .leaflet-interactive:focus {
   outline: none;
