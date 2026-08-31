@@ -37,7 +37,7 @@ function AtlasMap({ projects, active, setActive, filter }) {
       inertia: true,
     });
 
-    L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=cb1_2m15_1_93d4e86d2df587037df92b7e", {
       subdomains: "abcd",
       maxZoom: 19,
       detectRetina: false,
