@@ -338,17 +338,20 @@ main {
   text-transform: uppercase;
 }
 
-/* ── PDF button ── */
-.overlay__pdf {
-  margin-top: 12px;
-  text-align: center;
+/* ── Image wrapper + PDF button overlay ── */
+.overlay__img-wrap {
+  position: relative;
+  display: block;
 }
 
-.overlay__pdf button {
-  display: inline-block;
-  border: 1px solid rgba(255, 253, 82, 0.4);
-  background: transparent;
-  color: rgba(244, 232, 200, 0.7);
+.overlay__pdf-btn {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 1px solid rgba(255, 253, 82, 0.5);
+  background: rgba(0, 0, 0, 0.72);
+  color: rgba(244, 232, 200, 0.85);
   padding: 8px 20px;
   border-radius: 999px;
   font-family: inherit;
@@ -356,10 +359,12 @@ main {
   letter-spacing: 0.16em;
   text-transform: uppercase;
   cursor: pointer;
+  white-space: nowrap;
+  backdrop-filter: blur(6px);
   transition: border-color 0.15s, color 0.15s, background 0.15s;
 }
 
-.overlay__pdf button:hover {
+.overlay__pdf-btn:hover {
   border-color: #FFFD52;
   color: #000;
   background: #FFFD52;

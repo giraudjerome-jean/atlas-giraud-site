@@ -199,16 +199,26 @@ function ProjectOverlay({ project, onClose }) {
   return (
     <div className="overlay" onClick={onClose}>
       <div className="overlay__card">
-        {!imgError ? (
-          <img
-            className="overlay__img"
-            src={`/covers/${project.cover_file}`}
-            alt={project.title_clean}
-            onError={() => setImgError(true)}
-          />
-        ) : (
-          <div className="overlay__missing">Cover à ajouter</div>
-        )}
+        <div className="overlay__img-wrap">
+          {!imgError ? (
+            <img
+              className="overlay__img"
+              src={`/covers/${project.cover_file}`}
+              alt={project.title_clean}
+              onError={() => setImgError(true)}
+            />
+          ) : (
+            <div className="overlay__missing">Cover à ajouter</div>
+          )}
+          {project.pdf_url && (
+            <button
+              className="overlay__pdf-btn"
+              onClick={(e) => { e.stopPropagation(); setPdfOpen(true); }}
+            >
+              Voir le document
+            </button>
+          )}
+        </div>
 
         <div className="overlay__caption">
           <span className="overlay__title">{project.title_clean}</span>
@@ -217,15 +227,6 @@ function ProjectOverlay({ project, onClose }) {
             {project.city && <span className="overlay__city">{project.city}</span>}
           </div>
         </div>
-        {project.pdf_url && (
-          <div className="overlay__pdf">
-            <button
-              onClick={(e) => { e.stopPropagation(); setPdfOpen(true); }}
-            >
-              Voir le document
-            </button>
-          </div>
-        )}
         {pdfOpen && (
           <PdfViewer url={project.pdf_url} onClose={() => setPdfOpen(false)} />
         )}
