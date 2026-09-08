@@ -122,13 +122,18 @@ function PdfViewer({ url, onClose }) {
         const pdf = await pdfjsLib.getDocument(url).promise;
         if (cancelled) return;
 
-        for (let i = 1; i <= pdf.numPages; i++) {
+        const totalPages = pdf.numPages;
+        const isFullDoc = totalPages > FREE_PAGES;
+
+        for (let i = 1; i <= totalPages; i++) {
           if (cancelled) break;
           const page = await pdf.getPage(i);
           const viewport = page.getViewport({ scale: 1.6 });
 
+          const locked = !isFullDoc && i > FREE_PAGES;
+
           const wrapper = document.createElement("div");
-          wrapper.className = "pdf-page-wrapper" + (i > FREE_PAGES ? " pdf-page--locked" : "");
+          wrapper.className = "pdf-page-wrapper" + (locked ? " pdf-page--locked" : "");
 
           const canvas = document.createElement("canvas");
           canvas.width = viewport.width;
@@ -138,7 +143,7 @@ function PdfViewer({ url, onClose }) {
 
           wrapper.appendChild(canvas);
 
-          if (i > FREE_PAGES) {
+          if (locked) {
             const veil = document.createElement("div");
             veil.className = "pdf-veil";
             if (i === FREE_PAGES + 1) {
@@ -154,7 +159,9 @@ function PdfViewer({ url, onClose }) {
         if (!cancelled) {
           const endCard = document.createElement("div");
           endCard.className = "pdf-end-card";
-          endCard.innerHTML = `<p class="pdf-end-card__label">Extrait — 9 premières pages</p>`;
+          endCard.innerHTML = isFullDoc
+            ? `<p class="pdf-end-card__label">${totalPages} pages</p>`
+            : `<p class="pdf-end-card__label">Extrait — ${FREE_PAGES} premières pages</p>`;
           containerRef.current?.appendChild(endCard);
           setLoading(false);
         }
