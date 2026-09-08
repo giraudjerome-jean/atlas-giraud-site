@@ -67,12 +67,13 @@ main {
 
 .leaflet-control-attribution {
   background: transparent !important;
-  font-size: 9px !important;
-  color: rgba(244, 232, 200, 0.25) !important;
+  font-size: 7px !important;
+  color: rgba(244, 232, 200, 0.1) !important;
+  opacity: 0.4 !important;
 }
 
 .leaflet-control-attribution a {
-  color: rgba(244, 232, 200, 0.35) !important;
+  color: rgba(244, 232, 200, 0.12) !important;
 }
 
 .leaflet-control-zoom {
