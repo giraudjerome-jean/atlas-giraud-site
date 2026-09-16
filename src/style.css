@@ -492,4 +492,86 @@ main {
   outline: none;
 }
 
+/* ── Address search ── */
+.addr-search {
+  position: fixed;
+  right: 32px;
+  top: 28px;
+  z-index: 9998;
+  width: 260px;
+  transition: opacity 0.3s ease;
+}
+
+.has-overlay .addr-search {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.addr-search__input {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  border: 1px solid rgba(255, 253, 82, 0.25);
+  border-radius: 999px;
+  color: #f4e8c8;
+  font-family: inherit;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  padding: 10px 18px;
+  outline: none;
+  backdrop-filter: blur(6px);
+  transition: border-color 0.15s;
+}
+
+.addr-search__input::placeholder {
+  color: rgba(244, 232, 200, 0.3);
+  text-transform: uppercase;
+}
+
+.addr-search__input:focus {
+  border-color: rgba(255, 253, 82, 0.6);
+}
+
+.addr-search__dropdown {
+  margin-top: 6px;
+  background: rgba(0, 0, 0, 0.88);
+  border: 1px solid rgba(255, 253, 82, 0.2);
+  border-radius: 12px;
+  overflow: hidden;
+  backdrop-filter: blur(8px);
+}
+
+.addr-search__item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  border-bottom: 1px solid rgba(244, 232, 200, 0.06);
+  color: rgba(244, 232, 200, 0.7);
+  font-family: inherit;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  padding: 10px 16px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: background 0.12s, color 0.12s;
+}
+
+.addr-search__item:last-child {
+  border-bottom: none;
+}
+
+.addr-search__item:hover {
+  background: rgba(255, 253, 82, 0.1);
+  color: #FFFD52;
+}
+
+@media (max-width: 767px) {
+  .addr-search {
+    right: 16px;
+    top: 16px;
+    width: calc(100vw - 140px);
+  }
+}
+
 

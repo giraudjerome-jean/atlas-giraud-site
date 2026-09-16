@@ -11,7 +11,7 @@ const supabase = createClient(
 );
 
 
-function AtlasMap({ projects, active, setActive, filter }) {
+function AtlasMap({ projects, active, setActive, filter, mapApiRef }) {
   const mapEl = useRef(null);
   const mapRef = useRef(null);
   const markerLayerRef = useRef(null);
@@ -52,6 +52,7 @@ function AtlasMap({ projects, active, setActive, filter }) {
 
     markerLayerRef.current = L.layerGroup().addTo(map);
     mapRef.current = map;
+    if (mapApiRef) mapApiRef.current = map;
 
     setTimeout(() => map.invalidateSize(), 200);
 
@@ -245,6 +246,10 @@ function ProjectOverlay({ project, onClose }) {
 function App() {
   const [projects, setProjects] = useState([]);
   const [active, setActive] = useState(null);
+  const mapApiRef = useRef(null);
+  const [addrQuery, setAddrQuery] = useState("");
+  const [addrSuggestions, setAddrSuggestions] = useState([]);
+  const addrDebounceRef = useRef(null);
   useEffect(() => {
     async function loadProjects() {
       const { data, error } = await supabase
@@ -275,7 +280,46 @@ function App() {
         active={active}
         setActive={setActive}
         filter="all"
+        mapApiRef={mapApiRef}
       />
+
+      <div className="addr-search">
+        <input
+          type="text"
+          className="addr-search__input"
+          placeholder="Rechercher une adresse…"
+          value={addrQuery}
+          onChange={e => {
+            const q = e.target.value;
+            setAddrQuery(q);
+            if (addrDebounceRef.current) clearTimeout(addrDebounceRef.current);
+            if (q.length < 3) { setAddrSuggestions([]); return; }
+            addrDebounceRef.current = setTimeout(async () => {
+              try {
+                const res = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(q)}&limit=5`);
+                const data = await res.json();
+                setAddrSuggestions((data.features || []).map(f => ({
+                  label: f.properties.label,
+                  lat: f.geometry.coordinates[1],
+                  lng: f.geometry.coordinates[0],
+                })));
+              } catch { setAddrSuggestions([]); }
+            }, 250);
+          }}
+          onKeyDown={e => { if (e.key === "Escape") { setAddrQuery(""); setAddrSuggestions([]); } }}
+        />
+        {addrSuggestions.length > 0 && (
+          <div className="addr-search__dropdown">
+            {addrSuggestions.map((s, i) => (
+              <button key={i} className="addr-search__item" onClick={() => {
+                if (mapApiRef.current) mapApiRef.current.flyTo([s.lat, s.lng], 15, { animate: true, duration: 0.5 });
+                setAddrQuery("");
+                setAddrSuggestions([]);
+              }}>{s.label}</button>
+            ))}
+          </div>
+        )}
+      </div>
 
       <header className="title">
         <div>STUDIO GIRAUD</div>
