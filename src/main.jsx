@@ -293,16 +293,25 @@ function App() {
             const q = e.target.value;
             setAddrQuery(q);
             if (addrDebounceRef.current) clearTimeout(addrDebounceRef.current);
-            if (q.length < 3) { setAddrSuggestions([]); return; }
+            if (q.length < 2) { setAddrSuggestions([]); return; }
             addrDebounceRef.current = setTimeout(async () => {
               try {
-                const res = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(q)}&limit=5`);
-                const data = await res.json();
-                setAddrSuggestions((data.features || []).map(f => ({
-                  label: f.properties.label,
-                  lat: f.geometry.coordinates[1],
-                  lng: f.geometry.coordinates[0],
-                })));
+                const [supaRes, addrData] = await Promise.all([
+                  supabase
+                    .from("projects")
+                    .select("id,title_clean,lat,lng")
+                    .ilike("title_clean", `%${q}%`)
+                    .eq("display_on_map", true)
+                    .not("lat", "is", null)
+                    .not("lng", "is", null)
+                    .limit(4),
+                  fetch(`https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(q)}&limit=4`)
+                    .then(r => r.json())
+                    .catch(() => ({ features: [] })),
+                ]);
+                const buildings = (supaRes.data || []).map(p => ({ label: p.title_clean, lat: p.lat, lng: p.lng, kind: "building", id: p.id }));
+                const addresses = (addrData.features || []).map(f => ({ label: f.properties.label, lat: f.geometry.coordinates[1], lng: f.geometry.coordinates[0], kind: "address" }));
+                setAddrSuggestions([...buildings, ...addresses]);
               } catch { setAddrSuggestions([]); }
             }, 250);
           }}
@@ -311,8 +320,12 @@ function App() {
         {addrSuggestions.length > 0 && (
           <div className="addr-search__dropdown">
             {addrSuggestions.map((s, i) => (
-              <button key={i} className="addr-search__item" onClick={() => {
+              <button key={i} className={`addr-search__item${s.kind === "building" ? " addr-search__item--building" : ""}`} onClick={() => {
                 if (mapApiRef.current) mapApiRef.current.flyTo([s.lat, s.lng], 15, { animate: true, duration: 0.5 });
+                if (s.kind === "building" && s.id) {
+                  const proj = projects.find(p => p.id === s.id);
+                  if (proj) setActive(proj);
+                }
                 setAddrQuery("");
                 setAddrSuggestions([]);
               }}>{s.label}</button>

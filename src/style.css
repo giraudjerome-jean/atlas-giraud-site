@@ -566,6 +566,17 @@ main {
   color: #FFFD52;
 }
 
+.addr-search__item--building {
+  color: rgba(255, 253, 82, 0.85);
+}
+
+.addr-search__item--building::before {
+  content: "◆ ";
+  font-size: 7px;
+  vertical-align: middle;
+  margin-right: 2px;
+}
+
 @media (max-width: 767px) {
   .addr-search {
     right: 16px;
