@@ -37,13 +37,14 @@ function AtlasMap({ projects, active, setActive, filter, mapApiRef }) {
       inertia: true,
     });
 
-    L.tileLayer("https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png", {
+    L.tileLayer("https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png", {
+      subdomains: "abcd",
       maxZoom: 19,
       detectRetina: false,
       updateWhenIdle: true,
       updateWhenZooming: false,
       keepBuffer: 2,
-      attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
     }).addTo(map);
 
     L.control.zoom({ position: "bottomleft" }).addTo(map);
