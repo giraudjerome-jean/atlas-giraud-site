@@ -37,13 +37,14 @@ function AtlasMap({ projects, active, setActive, filter, mapApiRef }) {
       inertia: true,
     });
 
-    L.tileLayer("https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png", {
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=cb1_2m15_1_93d4e86d2df587037df92b7e", {
       subdomains: "abcd",
       maxZoom: 19,
       detectRetina: false,
       updateWhenIdle: true,
       updateWhenZooming: false,
       keepBuffer: 2,
+      crossOrigin: true,
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
     }).addTo(map);
 
