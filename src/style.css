@@ -65,6 +65,10 @@ main {
   font-family: inherit;
 }
 
+.leaflet-tile-pane {
+  filter: saturate(0.4) brightness(0.85);
+}
+
 .leaflet-control-attribution {
   background: transparent !important;
   font-size: 7px !important;
