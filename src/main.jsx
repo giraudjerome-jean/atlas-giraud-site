@@ -246,6 +246,7 @@ function ProjectOverlay({ project, onClose }) {
 function App() {
   const [projects, setProjects] = useState([]);
   const [active, setActive] = useState(null);
+  const [intro, setIntro] = useState(true);
   const mapApiRef = useRef(null);
   const [addrQuery, setAddrQuery] = useState("");
   const [addrSuggestions, setAddrSuggestions] = useState([]);
@@ -275,6 +276,15 @@ function App() {
 
   return (
     <main className={active ? "has-overlay" : ""}>
+      {intro && projects.length > 0 && (
+        <div className="intro" onClick={() => setIntro(false)}>
+          <div className="intro__card">
+            <span className="intro__count">{projects.length} projets.</span>
+            <span className="intro__line">Même les mauvais.</span>
+            <span className="intro__sub">Saurez-vous les retrouver ?</span>
+          </div>
+        </div>
+      )}
       <AtlasMap
         projects={projects}
         active={active}
