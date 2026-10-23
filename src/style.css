@@ -532,12 +532,11 @@ main {
   letter-spacing: -0.02em;
 }
 
-.intro__sub {
-  font-size: 11px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: rgba(244, 232, 200, 0.28);
+.intro__smiley {
+  width: 52px;
+  height: 52px;
   margin-top: 8px;
+  opacity: 0.7;
 }
 
 /* ── Address search ── */

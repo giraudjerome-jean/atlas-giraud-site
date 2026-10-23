@@ -280,8 +280,12 @@ function App() {
         <div className="intro" onClick={() => setIntro(false)}>
           <div className="intro__card">
             <span className="intro__count">{projects.length} projets.</span>
-            <span className="intro__line">Même les mauvais.</span>
-            <span className="intro__sub">Saurez-vous les retrouver ?</span>
+            <svg className="intro__smiley" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="30" cy="30" r="28" stroke="#FFFD52" strokeWidth="2.5"/>
+              <circle cx="21" cy="25" r="2.5" fill="#FFFD52"/>
+              <circle cx="39" cy="25" r="2.5" fill="#FFFD52"/>
+              <path d="M19 37 Q30 47 41 37" stroke="#FFFD52" strokeWidth="2.5" strokeLinecap="round"/>
+            </svg>
           </div>
         </div>
       )}
